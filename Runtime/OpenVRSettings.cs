@@ -33,7 +33,7 @@ namespace Unity.XR.OpenVR
             None = 0,
             Left,
             Right,
-            OpenVR_Both,
+            OpenVR,
         }
 
         [SerializeField, Tooltip("Set the Stereo Rendering Method")]
@@ -52,7 +52,7 @@ namespace Unity.XR.OpenVR
         public string ActionManifestFileRelativeFilePath;
 
         [SerializeField, Tooltip("Which eye to use when rendering the headset view to the main window (none, left, right, or a composite of both + OpenVR overlays)")]
-        public MirrorViewModes MirrorViewMode = MirrorViewModes.OpenVR_Both;
+        public MirrorViewModes MirrorViewMode = MirrorViewModes.OpenVR;
 
         public const string StreamingAssetsFolderName = "SteamVR";
         public const string ActionManifestFileName = "legacy_manifest.json";

@@ -152,7 +152,7 @@ namespace Unity.XR.OpenVR
                 userDefinedSettings.editorAppKey = null;
                 userDefinedSettings.isSteamVRLegacyInput = settings.IsLegacy;
                 userDefinedSettings.mirrorViewMode = (ushort)settings.GetMirrorViewMode();
-                //todo: determine legacy state?
+
 
 #if UNITY_EDITOR
                 userDefinedSettings.editorAppKey = settings.EditorAppKey; //only set the key if we're in the editor. Otherwise let steamvr set the key.
@@ -160,6 +160,12 @@ namespace Unity.XR.OpenVR
 
                 settings.InitializeActionManifestFileRelativeFilePath();
 #endif
+                if (OpenVRHelpers.IsUsingSteamVRInput())
+                {
+                    userDefinedSettings.isSteamVRLegacyInput = false;
+                    userDefinedSettings.actionManifestPath = OpenVRHelpers.GetActionManifestPathFromPlugin();
+                }
+
                 //only set the path if the file exists
                 FileInfo actionManifestFileInfo = new FileInfo(settings.ActionManifestFileRelativeFilePath);
                 if (actionManifestFileInfo.Exists)
@@ -167,7 +173,7 @@ namespace Unity.XR.OpenVR
                 else
                     userDefinedSettings.actionManifestPath = null;
 
-                
+
                 SetUserDefinedSettings(userDefinedSettings);
             }
             

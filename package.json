@@ -1,7 +1,7 @@
 {
   "name": "com.valve.openvr",
   "displayName": "OpenVR XR API",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "unity": "2019.3",
   "description": "Provides rendering and input support for OpenVR devices.",
   "keywords": [
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/zite/TestPackage.git"
+    "url": "https://github.com/zite/TestPackage.git#Package"
   },
   "type": "library",
   "hideInEditor": false

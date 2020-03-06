@@ -11,6 +11,9 @@ namespace Unity.XR.OpenVR.Editor
         [UnityEditor.Callbacks.DidReloadScripts]
         private static void CheckAndCopyDefaults()
         {
+            if (OpenVRHelpers.IsUsingSteamVRInput())
+                return; //don't copy if we're using steamvr input
+
             OpenVRSettings settings = OpenVRSettings.GetSettings();
             if (settings != null)
             {

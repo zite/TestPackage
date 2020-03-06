@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace Unity.XR.OpenVR
@@ -10,10 +11,15 @@ namespace Unity.XR.OpenVR
     {
         public static bool IsUsingSteamVRInput()
         {
-            return DoesTypeExist("SteamVR_ActionSet");
+            return DoesTypeExist("SteamVR_Input");
         }
 
         public static bool DoesTypeExist(string className, bool fullname = false)
+        {
+            return GetType(className, fullname) != null;
+        }
+
+        public static Type GetType(string className, bool fullname = false)
         {
             Type foundType = null;
             if (fullname)
@@ -31,7 +37,16 @@ namespace Unity.XR.OpenVR
                              select type).FirstOrDefault();
             }
 
-            return foundType != null;
+            return foundType;
+        }
+
+        public static string GetActionManifestPathFromPlugin()
+        {
+            Type steamvrInputType = GetType("SteamVR_Input");
+            MethodInfo getPathMethod = steamvrInputType.GetMethod("GetActionsFilePath");
+            object path = getPathMethod.Invoke(null, new object[] { false });
+
+            return (string)path;
         }
     }
 }

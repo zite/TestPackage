@@ -1,0 +1,19 @@
+{
+  "legacy_binding_manifest": true,
+
+
+  "default_bindings": [
+    {
+      "controller_type": "knuckles",
+      "binding_url": "custom_legacy_bindings_knuckles.json"
+    },
+    {
+      "controller_type": "logitech_stylus",
+      "binding_url": "custom_legacy_bindings_logitech_stylus.json"
+    },
+    {
+      "controller_type": "vive_cosmos_controller",
+      "binding_url": "custom_legacy_bindings_vive_cosmos_controller.json"
+    }
+  ]
+}

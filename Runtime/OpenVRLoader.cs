@@ -156,6 +156,12 @@ namespace Unity.XR.OpenVR
 
 #if UNITY_EDITOR
                 userDefinedSettings.editorAppKey = settings.EditorAppKey; //only set the key if we're in the editor. Otherwise let steamvr set the key.
+
+                if (OpenVRHelpers.IsUsingSteamVRInput())
+                {
+                    userDefinedSettings.editorAppKey = OpenVRHelpers.GetEditorAppKeyFromPlugin();
+                }
+
                 userDefinedSettings.applicationName = string.Format("[Testing] {0}", GetEscapedApplicationName());
 
                 settings.InitializeActionManifestFileRelativeFilePath();
@@ -165,9 +171,13 @@ namespace Unity.XR.OpenVR
                     userDefinedSettings.isSteamVRLegacyInput = false;
                     userDefinedSettings.actionManifestPath = OpenVRHelpers.GetActionManifestPathFromPlugin();
                 }
+                else
+                {
+                    userDefinedSettings.actionManifestPath = settings.ActionManifestFileRelativeFilePath;
+                }
 
                 //only set the path if the file exists
-                FileInfo actionManifestFileInfo = new FileInfo(settings.ActionManifestFileRelativeFilePath);
+                FileInfo actionManifestFileInfo = new FileInfo(userDefinedSettings.actionManifestPath);
                 if (actionManifestFileInfo.Exists)
                     userDefinedSettings.actionManifestPath = actionManifestFileInfo.FullName.Replace("\\", "\\\\");
                 else

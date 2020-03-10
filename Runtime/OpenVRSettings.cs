@@ -155,6 +155,30 @@ namespace Unity.XR.OpenVR
         [DllImport("XRSDKOpenVR", CharSet = CharSet.Auto)]
         public static extern void SetMirrorViewMode(ushort mirrorViewMode);
 
+        public bool InitializeActionManifestFileRelativeFilePath()
+        {
+            string temp = ActionManifestFileRelativeFilePath;
+
+            if (IsLegacy)
+            {
+                ActionManifestFileRelativeFilePath = System.IO.Path.Combine(OpenVRSettings.GetStreamingSteamVRPath(false), OpenVRSettings.ActionManifestFileName);
+            }
+            else
+            {
+                ActionManifestFileRelativeFilePath = System.IO.Path.Combine(OpenVRSettings.GetStreamingSteamVRPath(false), OpenVRHelpers.GetActionManifestNameFromPlugin());
+            }
+
+            #if UNITY_EDITOR
+            if (temp != ActionManifestFileRelativeFilePath)
+            {
+                UnityEditor.EditorUtility.SetDirty(this);
+                UnityEditor.AssetDatabase.SaveAssets();
+                return true;
+            }
+            #endif
+            return false;
+        }
+
 #if UNITY_EDITOR
         public void Awake()
         {
@@ -163,15 +187,7 @@ namespace Unity.XR.OpenVR
                 this.EditorAppKey = this.GenerateEditorAppKey();
             }
 
-            InitializeActionManifestFileRelativeFilePath();
-        }
-
-        public void InitializeActionManifestFileRelativeFilePath()
-        {
-            if (IsLegacy)
-            {
-                ActionManifestFileRelativeFilePath = System.IO.Path.Combine(OpenVRSettings.GetStreamingSteamVRPath(false), OpenVRSettings.ActionManifestFileName);
-            }
+            this.InitializeActionManifestFileRelativeFilePath();
         }
 #else
         public static OpenVRSettings s_Settings;

@@ -20,6 +20,5 @@
     "type": "git",
     "url": "https://github.com/zite/TestPackage.git#TestBranch"
   },
-  "type": "library",
   "hideInEditor": false
 }

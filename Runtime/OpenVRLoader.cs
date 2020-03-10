@@ -137,6 +137,9 @@ namespace Unity.XR.OpenVR
             InputLayoutLoader.RegisterInputLayouts();
 #endif
 
+
+//this only works at the right time in editor. In builds we use a different method (reading the asset manually)
+#if UNITY_EDITOR
             OpenVRSettings settings = OpenVRSettings.GetSettings();
             if (settings != null)
             {
@@ -153,8 +156,12 @@ namespace Unity.XR.OpenVR
                 userDefinedSettings.isSteamVRLegacyInput = settings.IsLegacy;
                 userDefinedSettings.mirrorViewMode = (ushort)settings.GetMirrorViewMode();
 
+                if (OpenVRHelpers.IsUsingSteamVRInput())
+                {
+                    userDefinedSettings.isSteamVRLegacyInput = false;
+                    settings.IsLegacy = false;
+                }
 
-#if UNITY_EDITOR
                 userDefinedSettings.editorAppKey = settings.EditorAppKey; //only set the key if we're in the editor. Otherwise let steamvr set the key.
 
                 if (OpenVRHelpers.IsUsingSteamVRInput())
@@ -163,18 +170,10 @@ namespace Unity.XR.OpenVR
                 }
 
                 userDefinedSettings.applicationName = string.Format("[Testing] {0}", GetEscapedApplicationName());
-
                 settings.InitializeActionManifestFileRelativeFilePath();
-#endif
-                if (OpenVRHelpers.IsUsingSteamVRInput())
-                {
-                    userDefinedSettings.isSteamVRLegacyInput = false;
-                    userDefinedSettings.actionManifestPath = OpenVRHelpers.GetActionManifestPathFromPlugin();
-                }
-                else
-                {
-                    userDefinedSettings.actionManifestPath = settings.ActionManifestFileRelativeFilePath;
-                }
+
+                userDefinedSettings.actionManifestPath = settings.ActionManifestFileRelativeFilePath;
+
 
                 //only set the path if the file exists
                 FileInfo actionManifestFileInfo = new FileInfo(userDefinedSettings.actionManifestPath);
@@ -184,8 +183,9 @@ namespace Unity.XR.OpenVR
                     userDefinedSettings.actionManifestPath = null;
 
 
-                SetUserDefinedSettings(userDefinedSettings);
+                SetUserDefinedSettings(userDefinedSettings); 
             }
+#endif
             
             CreateSubsystem<XRDisplaySubsystemDescriptor, XRDisplaySubsystem>(s_DisplaySubsystemDescriptors, "OpenVR Display");
             CreateSubsystem<XRInputSubsystemDescriptor, XRInputSubsystem>(s_InputSubsystemDescriptors, "OpenVR Input");

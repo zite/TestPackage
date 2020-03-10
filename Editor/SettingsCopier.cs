@@ -9,9 +9,55 @@ namespace Unity.XR.OpenVR.Editor
 {
     public class SettingsCopier
     {
+        private const string defaultAssetPath = "Assets/XR/Settings/Open VR Settings.asset";
+
+        private static void CreatePath(string path)
+        {
+            string[] split = defaultAssetPath.Split('/');
+            for (int splitIndex = 1; splitIndex < split.Length; splitIndex++)
+            {
+                string splitPath = string.Join("/", split, 0, splitIndex);
+                if (AssetDatabase.IsValidFolder(splitPath) == false)
+                {
+                    AssetDatabase.CreateFolder(string.Join("/", split, 0, splitIndex - 1), split[splitIndex-1]);
+                    Debug.Log("Created: " + splitPath);
+                }
+            }
+        }
+
         [PostProcessBuildAttribute(1)]
         public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
         {
+            OpenVRSettings settings = OpenVRSettings.GetSettings();
+            bool needsSave = false;
+
+            if (OpenVRHelpers.IsUsingSteamVRInput())
+            {
+                bool wasLegacy = settings.IsLegacy;
+                settings.IsLegacy = false;
+
+                if (settings.IsLegacy != wasLegacy)
+                {
+                    needsSave = true;
+                }
+            }
+
+            bool saved = settings.InitializeActionManifestFileRelativeFilePath();
+
+            string settingsAssetPath = AssetDatabase.GetAssetPath(settings);
+            if (string.IsNullOrEmpty(settingsAssetPath))
+            {
+                CreatePath(defaultAssetPath);
+                UnityEditor.AssetDatabase.CreateAsset(settings, defaultAssetPath);
+                settingsAssetPath = AssetDatabase.GetAssetPath(settings);
+            }
+            else if (needsSave)
+            {
+                UnityEditor.EditorUtility.SetDirty(settings);
+                UnityEditor.AssetDatabase.SaveAssets();
+            }
+
+
             FileInfo buildPath = new FileInfo(pathToBuiltProject);
             string buildName = buildPath.Name.Replace(buildPath.Extension, "");
             DirectoryInfo buildDirectory = buildPath.Directory;
@@ -37,9 +83,9 @@ namespace Unity.XR.OpenVR.Editor
             if (Directory.Exists(streamingSteamVR) == false)
                 Directory.CreateDirectory(streamingSteamVR);
 
+            Debug.Log("settingsAssetPath: " + settingsAssetPath);
 
-            OpenVRSettings settings = OpenVRSettings.GetSettings();
-            FileInfo currentSettingsPath = new FileInfo(AssetDatabase.GetAssetPath(settings));
+            FileInfo currentSettingsPath = new FileInfo(settingsAssetPath);
             FileInfo newSettingsPath = new FileInfo(Path.Combine(streamingSteamVR, "OpenVRSettings.asset"));
 
             if (newSettingsPath.Exists)

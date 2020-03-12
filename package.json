@@ -1,7 +1,7 @@
 {
   "name": "com.valve.openvr",
   "displayName": "OpenVR XR API",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "unity": "2019.3",
   "description": "Provides rendering and legacy input support for OpenVR devices.",
   "keywords": [

@@ -237,6 +237,15 @@ namespace Unity.XR.OpenVR
     }
 
     /// <summary>
+    /// An HTC Vive lighthouse.
+    /// </summary>
+    [InputControlLayout(displayName = "[OpenVR] Valve Lighthouse")]
+    [Preserve]
+    public class ValveLighthouse : TrackedDevice
+    {
+    }
+
+    /// <summary>
     /// An HTC Vive tracker.
     /// </summary>
     [InputControlLayout(displayName = "[OpenVR] Vive Tracker")]

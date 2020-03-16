@@ -457,9 +457,11 @@ namespace Unity.XR.OpenVR
         [Preserve]
         public ButtonControl triggerTouch { get; private set; }
 
+
         [InputControl]
         [Preserve]
         public ButtonControl gripButton { get; private set; }
+
 
 
         [InputControl]
@@ -553,11 +555,11 @@ namespace Unity.XR.OpenVR
         [Preserve]
         public ButtonControl aTouch { get; private set; }
 
-        [InputControl(aliases = new[] { "alternateButton" })]
+        [InputControl(aliases = new[] { "secondaryButton" })]
         [Preserve]
         public ButtonControl bButton { get; private set; }
 
-        [InputControl(aliases = new[] { "alternateTouch" })]
+        [InputControl(aliases = new[] { "secondaryTouch" })]
         [Preserve]
         public ButtonControl bTouch { get; private set; }
 

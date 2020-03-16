@@ -56,7 +56,7 @@ namespace Unity.XR.OpenVR
                 matches: new InputDeviceMatcher()
                     .WithInterface(XRUtilities.InterfaceMatchAnyVersion)
                     .WithManufacturer("HTC")
-                    .WithProduct(@"^(OpenVR Controller\(((VIVE Cosmos Controller)|(Vive Cosmos Controller)))")
+                    .WithProduct(@"^(OpenVR Controller\(((VIVE Cosmos Controller)|(Vive Cosmos Controller)|(vive_cosmos_controller)))")
             );
 
             InputSystem.RegisterLayout<Unity.XR.OpenVR.OpenVRControllerIndex>("OpenVRControllerIndex",
@@ -92,6 +92,13 @@ namespace Unity.XR.OpenVR
                     .WithInterface(XRUtilities.InterfaceMatchAnyVersion)
                     .WithManufacturer("HTC")
                     .WithProduct(@"^(HTC V2-XD/XE)")
+            );
+
+            InputSystem.RegisterLayout<Unity.XR.OpenVR.ValveLighthouse>("ValveLighthouse",
+                matches: new InputDeviceMatcher()
+                    .WithInterface(XRUtilities.InterfaceMatchAnyVersion)
+                    .WithManufacturer("Valve Corporation")
+                    .WithProduct(@"^(Valve SR)")
             );
 
             InputSystem.RegisterLayout<Unity.XR.OpenVR.LogitechStylus>("LogitechStylus",

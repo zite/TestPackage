@@ -426,7 +426,12 @@
                },
                "mode" : "button",
                "parameters" : {
-                  "haptic_amplitude" : "0"
+                  "click_activate_threshold" : "0.5",
+                  "click_deactivate_threshold" : "0.45",
+                  "force_input" : "force",
+                  "haptic_amplitude" : "0",
+                  "touch_activate_threshold" : "0.1",
+                  "touch_deactivate_threshold" : "0.05"
                },
                "path" : "/user/hand/left/input/grip"
             },
@@ -441,7 +446,12 @@
                },
                "mode" : "button",
                "parameters" : {
-                  "haptic_amplitude" : "0"
+                  "click_activate_threshold" : "0.5",
+                  "click_deactivate_threshold" : "0.45",
+                  "force_input" : "force",
+                  "haptic_amplitude" : "0",
+                  "touch_activate_threshold" : "0.1",
+                  "touch_deactivate_threshold" : "0.05"
                },
                "path" : "/user/hand/right/input/grip"
             }

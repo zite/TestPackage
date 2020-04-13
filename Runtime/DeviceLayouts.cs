@@ -657,11 +657,19 @@ namespace Unity.XR.OpenVR
 
         [InputControl]
         [Preserve]
+        public ButtonControl primaryTouch { get; private set; }
+
+        [InputControl]
+        [Preserve]
         public AxisControl tip { get; private set; }
 
         [InputControl]
         [Preserve]
         public ButtonControl tipButton { get; private set; }
+
+        [InputControl]
+        [Preserve]
+        public ButtonControl tipTouch { get; private set; }
 
 
         [InputControl]
@@ -685,9 +693,11 @@ namespace Unity.XR.OpenVR
 
             primary = GetChildControl<AxisControl>("primary");
             primaryButton = GetChildControl<ButtonControl>("primaryButton");
+            primaryTouch = GetChildControl<ButtonControl>("primaryTouch");
 
             tip = GetChildControl<AxisControl>("tip");
             tipButton = GetChildControl<ButtonControl>("tipButton");
+            tipTouch = GetChildControl<ButtonControl>("tipTouch");
 
             menuButton = GetChildControl<ButtonControl>("menuButton");
             gripButton = GetChildControl<ButtonControl>("gripButton");

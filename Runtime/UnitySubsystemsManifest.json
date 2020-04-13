@@ -11,7 +11,8 @@
   "inputs": [
     {
       "id": "OpenVR Input",
-      "disablesLegacyInput": true
+      "disablesLegacyInput": true,
+      "disablesLegacyVr" : true
     }
   ]
 }

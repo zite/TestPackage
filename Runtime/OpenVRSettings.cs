@@ -18,7 +18,6 @@ namespace Unity.XR.OpenVR
         public enum StereoRenderingModes
         {
             MultiPass = 0,
-            SinglePass,
             SinglePassInstanced
         }
 

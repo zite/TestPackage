@@ -99,13 +99,18 @@
                     "path": "/user/hand/left/input/primary",
                     "mode": "button",
                     "parameters": {
-                        "click_activate_threshold": "0.05",
-                        "click_deactivate_threshold": "0.01",
-                        "haptic_amplitude": "0"
+                        "click_activate_threshold": "0.25",
+                        "click_deactivate_threshold": "0.2",
+                        "touch_activate_threshold": "0.05",
+                        "touch_deactivate_threshold": "0.01",
+                        "haptic_amplitude": "0.25"
                     },
                     "inputs": {
                         "click": {
                             "output": "/actions/legacy/in/left_axis1_press"
+                        },
+                        "touch": {
+                            "output": "/actions/legacy/in/left_axis1_touch"
                         }
                     }
                 },
@@ -122,13 +127,18 @@
                     "path": "/user/hand/left/input/tip",
                     "mode": "button",
                     "parameters": {
-                        "click_activate_threshold": "0.05",
-                        "click_deactivate_threshold": "0.01",
-                        "haptic_amplitude": "0"
+                        "click_activate_threshold": "0.15",
+                        "click_deactivate_threshold": "0.1",
+                        "touch_activate_threshold": "0.05",
+                        "touch_deactivate_threshold": "0.01",
+                        "haptic_amplitude": "0.25"
                     },
                     "inputs": {
                         "click": {
                             "output": "/actions/legacy/in/left_axis3_press"
+                        },
+                        "touch": {
+                            "output": "/actions/legacy/in/left_axis3_touch"
                         }
                     }
                 },
@@ -136,13 +146,18 @@
                     "path": "/user/hand/right/input/tip",
                     "mode": "button",
                     "parameters": {
-                        "click_activate_threshold": "0.05",
-                        "click_deactivate_threshold": "0.01",
-                        "haptic_amplitude": "0"
+                        "click_activate_threshold": "0.25",
+                        "click_deactivate_threshold": "0.2",
+                        "touch_activate_threshold": "0.05",
+                        "touch_deactivate_threshold": "0.01",
+                        "haptic_amplitude": "0.25"
                     },
                     "inputs": {
                         "click": {
                             "output": "/actions/legacy/in/right_axis3_press"
+                        },
+                        "touch": {
+                            "output": "/actions/legacy/in/right_axis3_touch"
                         }
                     }
                 },
@@ -180,13 +195,18 @@
                     "path": "/user/hand/right/input/primary",
                     "mode": "button",
                     "parameters": {
-                        "click_activate_threshold": "0.05",
-                        "click_deactivate_threshold": "0.01",
-                        "haptic_amplitude": "0"
+                        "click_activate_threshold": "0.25",
+                        "click_deactivate_threshold": "0.2",
+                        "touch_activate_threshold": "0.05",
+                        "touch_deactivate_threshold": "0.01",
+                        "haptic_amplitude": "0.25"
                     },
                     "inputs": {
                         "click": {
                             "output": "/actions/legacy/in/right_axis1_press"
+                        },
+                        "touch": {
+                            "output": "/actions/legacy/in/right_axis1_touch"
                         }
                     }
                 },

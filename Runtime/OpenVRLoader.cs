@@ -77,35 +77,42 @@ namespace Unity.XR.OpenVR
                 matches: new InputDeviceMatcher()
                     .WithInterface(XRUtilities.InterfaceMatchAnyVersion)
                     .WithManufacturer("HTC")
-                    .WithProduct(@"^(OpenVR Controller\(((Vive Tracker)|(VIVE Tracker)))")
+                    .WithProduct(@"^(OpenVR Controller\(((Vive Tracker)|(VIVE Tracker)).+ - ((Left)|(Right)))")
             );
 
             InputSystem.RegisterLayout<Unity.XR.OpenVR.ViveTracker>("ViveTracker",
                 matches: new InputDeviceMatcher()
                     .WithInterface(XRUtilities.InterfaceMatchAnyVersion)
                     .WithManufacturer("HTC")
-                    .WithProduct(@"^(VIVE Tracker)|(Vive Tracker)")
+                    .WithProduct(@"^(OpenVR Controller\(((Vive Tracker)|(VIVE Tracker)).+\)(?! - Left| - Right))")
             );
 
-            InputSystem.RegisterLayout<Unity.XR.OpenVR.ViveLighthouse>("ViveLighthouse",
+            InputSystem.RegisterLayout<Unity.XR.OpenVR.ViveTracker>("ViveTracker",
                 matches: new InputDeviceMatcher()
                     .WithInterface(XRUtilities.InterfaceMatchAnyVersion)
                     .WithManufacturer("HTC")
-                    .WithProduct(@"^(HTC V2-XD/XE)")
-            );
-
-            InputSystem.RegisterLayout<Unity.XR.OpenVR.ValveLighthouse>("ValveLighthouse",
-                matches: new InputDeviceMatcher()
-                    .WithInterface(XRUtilities.InterfaceMatchAnyVersion)
-                    .WithManufacturer("Valve Corporation")
-                    .WithProduct(@"^(Valve SR)")
+                    .WithProduct(@"^(OpenVR Tracked Device\(((Vive Tracker)|(VIVE Tracker)).+\)(?! - Left| - Right))")
             );
 
             InputSystem.RegisterLayout<Unity.XR.OpenVR.LogitechStylus>("LogitechStylus",
                 matches: new InputDeviceMatcher()
                     .WithInterface(XRUtilities.InterfaceMatchAnyVersion)
                     .WithManufacturer("Logitech")
-                    .WithProduct(@"(Stylus)|(stylus)")
+                    .WithProduct(@"(OpenVR Controller\(Logitech Stylus)")
+            );
+
+            InputSystem.RegisterLayout<Unity.XR.OpenVR.ViveLighthouse>("ViveLighthouse",
+                matches: new InputDeviceMatcher()
+                    .WithInterface(XRUtilities.InterfaceMatchAnyVersion)
+                    .WithManufacturer("HTC")
+                    .WithProduct(@"^(OpenVR Tracking Reference\()")
+            );
+
+            InputSystem.RegisterLayout<Unity.XR.OpenVR.ValveLighthouse>("ValveLighthouse",
+                matches: new InputDeviceMatcher()
+                    .WithInterface(XRUtilities.InterfaceMatchAnyVersion)
+                    .WithManufacturer("Valve Corporation")
+                    .WithProduct(@"^(OpenVR Tracking Reference\()")
             );
         }
     }
@@ -200,6 +207,10 @@ namespace Unity.XR.OpenVR
             Debug.Log(displaySubsystem);
             Debug.Log(inputSubsystem);
 
+            OpenVREvents.Initialize();
+            TickCallbackDelegate callback = TickCallback;
+            RegisterTickCallback(callback);
+            callback(0);
 
             return displaySubsystem != null && inputSubsystem != null;
         }
@@ -228,13 +239,14 @@ namespace Unity.XR.OpenVR
             return true;
         }
 
+        private UnityEngine.Events.UnityEvent[] events;
+
         public override bool Stop()
         {
             StopSubsystem<XRInputSubsystem>();
             StopSubsystem<XRDisplaySubsystem>(); //display actually does vrshutdown
 
             return true;
-
         }
 
         public override bool Deinitialize()
@@ -262,6 +274,17 @@ namespace Unity.XR.OpenVR
 
         [DllImport("XRSDKOpenVR", CharSet = CharSet.Auto)]
         static extern API.EVRInitError GetInitializationResult();
+
+        [DllImport("XRSDKOpenVR", CharSet = CharSet.Auto)]
+        static extern void RegisterTickCallback([MarshalAs(UnmanagedType.FunctionPtr)] TickCallbackDelegate callbackPointer);
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        delegate void TickCallbackDelegate(int value);
+
+        private void TickCallback(int value)
+        {
+            OpenVREvents.Update();
+        }
 
 #if UNITY_EDITOR
         public string GetPreInitLibraryName(BuildTarget buildTarget, BuildTargetGroup buildTargetGroup)

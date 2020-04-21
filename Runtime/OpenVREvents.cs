@@ -19,6 +19,7 @@ namespace Unity.XR.OpenVR
         private bool preloadedEvents = false;
 
         private const int maxEventsPerUpdate = 64;
+        private static bool debugLogAllEvents = false;
 
         public static void Initialize(bool lazyLoadEvents = false)
         {
@@ -98,17 +99,22 @@ namespace Unity.XR.OpenVR
 
         public void PollEvents()
         {
-            API.CVRSystem system = API.OpenVR.System;
-            if (system != null)
+            if (API.OpenVR.System != null)
             {
                 for (int eventIndex = 0; eventIndex < maxEventsPerUpdate; eventIndex++)
                 {
-                    if (!system.PollNextEvent(ref vrEvent, vrEventSize))
+                    if (API.OpenVR.System == null || !API.OpenVR.System.PollNextEvent(ref vrEvent, vrEventSize))
                         break;
 
                     int uEventType = (int)vrEvent.eventType;
 
-                    if (events[uEventType] != null && events[uEventType].GetPersistentEventCount() > 0)
+                    if (debugLogAllEvents)
+                    {
+                        API.EVREventType eventType = (API.EVREventType)uEventType;
+                        Debug.Log(string.Format("[{0}] {1}", Time.frameCount, eventType.ToString()));
+                    }
+
+                    if (events[uEventType] != null)
                     {
                         events[uEventType].Invoke(vrEvent);
                     }
@@ -116,14 +122,30 @@ namespace Unity.XR.OpenVR
             }
         }
 
+        private bool exiting = false;
+
         #region DefaultEvents
         private void On_VREvent_Quit(API.VREvent_t pEvent)
         {
-            API.CVRSystem system = API.OpenVR.System;
-            system.AcknowledgeQuit_Exiting();
-            Debug.Log("<b>[OpenVR]</b> Quit requested from OpenVR. Exiting application.");
+            if (exiting == true)
+            {
+                return;
+            }
+            exiting = true;
+
+            if (API.OpenVR.System != null)
+            {
+                API.OpenVR.System.AcknowledgeQuit_Exiting();
+            }
+
+#if UNITY_EDITOR
+            Debug.Log("<b>[OpenVR]</b> Quit requested from OpenVR. Exiting application via EditorApplication.isPlaying = false");
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Debug.Log("<b>[OpenVR]</b> Quit requested from OpenVR. Exiting application via Application.Quit");
             Application.Quit();
+#endif
         }
-        #endregion
+#endregion
     }
 }

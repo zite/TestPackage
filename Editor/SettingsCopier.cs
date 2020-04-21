@@ -28,6 +28,9 @@ namespace Unity.XR.OpenVR.Editor
         [PostProcessBuildAttribute(1)]
         public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
         {
+            if (target != BuildTarget.StandaloneLinux64 && target != BuildTarget.StandaloneWindows)
+                return;
+
             OpenVRSettings settings = OpenVRSettings.GetSettings();
             bool needsSave = false;
 
@@ -68,11 +71,12 @@ namespace Unity.XR.OpenVR.Editor
                 string vsDebugDataDirectory = Path.Combine(buildDirectory.FullName, "build/bin/" + buildName + "_Data");
                 if (Directory.Exists(vsDebugDataDirectory) == false)
                 {
-                    Debug.LogError("<b>[OpenVR]</b> Could not find (vs debug) data directory at: " + dataDirectory);
-                    Debug.LogError("<b>[OpenVR]</b> Could not find data directory at: " + dataDirectory);
+                    Debug.LogError("<b>[OpenVR]</b> Could not find data directory at: " + dataDirectory + ". Also checked vs debug at: " + vsDebugDataDirectory);
                 }
                 else
+                {
                     dataDirectory = vsDebugDataDirectory;
+                }
             }
 
             string streamingAssets = Path.Combine(dataDirectory, "StreamingAssets");

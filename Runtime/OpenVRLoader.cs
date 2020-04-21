@@ -98,7 +98,7 @@ namespace Unity.XR.OpenVR
                 matches: new InputDeviceMatcher()
                     .WithInterface(XRUtilities.InterfaceMatchAnyVersion)
                     .WithManufacturer("Logitech")
-                    .WithProduct(@"(OpenVR Controller\(Logitech Stylus)")
+                    .WithProduct(@"(OpenVR Controller\(.+stylus)")
             );
 
             InputSystem.RegisterLayout<Unity.XR.OpenVR.ViveLighthouse>("ViveLighthouse",
@@ -145,8 +145,6 @@ namespace Unity.XR.OpenVR
 
         public override bool Initialize()
         {
-            Debug.Log("Initialize openvr loader");
-
 #if UNITY_INPUT_SYSTEM
             InputLayoutLoader.RegisterInputLayouts();
 #endif
@@ -203,9 +201,6 @@ namespace Unity.XR.OpenVR
             
             CreateSubsystem<XRDisplaySubsystemDescriptor, XRDisplaySubsystem>(s_DisplaySubsystemDescriptors, "OpenVR Display");
             CreateSubsystem<XRInputSubsystemDescriptor, XRInputSubsystem>(s_InputSubsystemDescriptors, "OpenVR Input");
-
-            Debug.Log(displaySubsystem);
-            Debug.Log(inputSubsystem);
 
             OpenVREvents.Initialize();
             TickCallbackDelegate callback = TickCallback;

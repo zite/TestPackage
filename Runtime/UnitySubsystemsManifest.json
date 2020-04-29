@@ -1,6 +1,6 @@
 {
   "name": "XRSDKOpenVR",
-  "version": "0.0.9-preview",
+  "version": "1.0.0-preview.1",
   "libraryName": "XRSDKOpenVR",
 
   "displays": [

@@ -36,7 +36,7 @@ namespace Unity.XR.OpenVR
         }
 
         [SerializeField, Tooltip("Set the Stereo Rendering Method")]
-        public StereoRenderingModes StereoRenderingMode;
+        public StereoRenderingModes StereoRenderingMode = StereoRenderingModes.SinglePassInstanced;
 
         [SerializeField, Tooltip("Most applications initialize as type Scene")]
         public InitializationTypes InitializationType = InitializationTypes.Scene;

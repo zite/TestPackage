@@ -1,6 +1,6 @@
 # About
 
-The OpenVR XR Plugin gives you access to all major VR devices through one interface. Explicit support for: HTC Vive, HTC Vive Cosmos, HTC Vive Tracker, Oculus Touch, Windows Mixed Reality, Logitech VR Ink, and Valve Index. Other SteamVR compatible devices are supported though may have inaccurate or incomplete features.
+The purpose of this package is to provide OpenVR XR SDK Support. This package provides the necessary sdk libraries for users to build Applications that work with the OpenVR runtime. The OpenVR XR Plugin gives you access to all major VR devices through one interface. Explicit support for: HTC Vive, HTC Vive Cosmos, HTC Vive Tracker, Oculus Touch, Windows Mixed Reality, Logitech VR Ink, and Valve Index. Other SteamVR compatible devices are supported though may have inaccurate or incomplete features.
 
 ## Subsystems
 
@@ -16,13 +16,13 @@ Alone, this plugin runs using SteamVR's Legacy Input mode. That means we provide
 * **Custom Legacy Bindings** A default set of legacy input bindings are included with this plugin. If you would like to further customize these bindings you can do so by modifying these bindings to better suit your application by editing the json files directly at Assets/StreamingAssets/SteamVR. You'll be unable to add bindings to actions not already referenced, but you can modify the existing bindings.
 
 * **SteamVR Input**
-To use the full power of SteamVR we recommend also downloading our SteamVR for Unity plugin. It is on the [Unity Asset Store here.](https://assetstore.unity.com/packages/tools/integration/steamvr-plugin-32647) This plugin can run alongside the OpenVR XR plugin. But you will not be able to query Unity's input functions while using SteamVR Input. The two systems are currently incompatible and you must chose to use one or the other.
+To use the full power of SteamVR we recommend also downloading our SteamVR for Unity plugin. It is in beta [on our github releases page.](https://github.com/ValveSoftware/steamvr_unity_plugin/releases/tag/2.6.0b1) This plugin can run alongside the OpenVR XR plugin. However, you will not be able to query Unity's input functions while using SteamVR Input. The two systems are currently incompatible and you must chose to use one or the other.
 
 
 
 ## XR Management
 
-To use our XR Management support open the XR Management settings page (Project Settings -> XR Plugin Management) and click the '+' icon under Plugin Providers. Then select Open VR Loader.
+To use our XR Management support open the XR Management settings page (Project Settings -> XR Plugin Management) and click the checkbox next to OpenVR Loader. Or for older versions of the XR Management UI: click the '+' icon under Plugin Providers, then select Open VR Loader.
 
 * **Settings** 
  * **Application Type** - This gives you the option between creating a Scene app (most games / applications) and an Overlay app. Overlay apps can run alongside Scene apps providing tools to the user. For more information on Overlay Apps see [this documentation page here](https://github.com/ValveSoftware/openvr/wiki/IVROverlay_Overview)
